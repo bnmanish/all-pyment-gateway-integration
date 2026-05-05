@@ -65,7 +65,7 @@
           <!-- Name -->
           <div class="col-md-6">
             <div class="form-floating">
-              <input type="text" id="name" class="form-control" placeholder="Name" required>
+              <input type="text" id="name" class="form-control" placeholder="Name" value="Manish Dev" required>
               <label>Full Name</label>
             </div>
           </div>
@@ -73,7 +73,7 @@
           <!-- Email -->
           <div class="col-md-6">
             <div class="form-floating">
-              <input type="email" id="email" class="form-control" placeholder="Email" required>
+              <input type="email" id="email" class="form-control" placeholder="Email" value="developermanish95@gmail.com" required>
               <label>Email</label>
             </div>
           </div>
@@ -81,14 +81,14 @@
           <!-- Mobile with Country Code -->
           <div class="col-md-6">
             <label class="form-label">Mobile</label>
-            <input type="tel" id="mobile" class="form-control" required>
+            <input type="tel" id="mobile" class="form-control" value="8116648011" required>
           </div>
 
           <!-- Currency -->
           <div class="col-md-3">
             <div class="form-floating">
               <select id="currency" class="form-select">
-                <option value="INR">₹ INR</option>
+                <option value="INR" selected>₹ INR</option>
                 <option value="USD">$ USD</option>
                 <option value="EUR">€ EUR</option>
                 <option value="GBP">£ GBP</option>
@@ -100,7 +100,7 @@
           <!-- Amount -->
           <div class="col-md-3">
             <div class="form-floating">
-              <input type="number" id="amount" class="form-control" placeholder="Amount" required>
+              <input type="number" id="amount" class="form-control" placeholder="Amount" value="100" required>
               <label>Amount</label>
             </div>
           </div>
@@ -108,28 +108,28 @@
           <!-- Address -->
           <div class="col-12">
             <div class="form-floating">
-              <input type="text" id="address" class="form-control" placeholder="Address" required>
+              <input type="text" id="address" class="form-control" placeholder="Address" value="U123, Sector 99, Mamura" required>
               <label>Building / Plot No</label>
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="form-floating">
-              <input type="text" id="city" class="form-control" placeholder="City" required>
+              <input type="text" id="city" class="form-control" placeholder="City" value="Noida" required>
               <label>City</label>
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="form-floating">
-              <input type="text" id="state" class="form-control" placeholder="State" required>
+              <input type="text" id="state" class="form-control" placeholder="State" value="Uttar Pradesh" required>
               <label>State</label>
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="form-floating">
-              <input type="text" id="country" class="form-control" placeholder="Country" required>
+              <input type="text" id="country" class="form-control" placeholder="Country" value="India" required>
               <label>Country</label>
             </div>
           </div>
@@ -157,10 +157,9 @@
 
   </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <!-- Intl Tel Input -->
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
 
@@ -177,27 +176,42 @@ const iti = window.intlTelInput(phoneInput, {
 function pay(method) {
 
   let data = {
-    name: name.value,
-    email: email.value,
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
     mobile: iti.getNumber(),
-    currency: currency.value,
-    amount: amount.value,
-    address: address.value,
-    city: city.value,
-    state: state.value,
-    country: country.value,
+    currency: document.getElementById("currency").value,
+    amount: document.getElementById("amount").value,
+    address: document.getElementById("address").value,
+    city: document.getElementById("city").value,
+    state: document.getElementById("state").value,
+    country: document.getElementById("country").value,
     gateway: method
   };
 
-  for (let key in data) {
-    if (!data[key]) {
-      alert("Please fill all fields!");
-      return;
+
+   $.ajax({
+    url: "{{route('paypal.payment')}}",
+    type: "POST",
+    data: data,
+    headers: {
+      "X-CSRF-TOKEN": "{{ csrf_token() }}",
+    },
+    success: function(response) {
+      console.log("Success:", response);
+      if (response.status) {
+          window.location.href = response.url;
+      } else {
+          console.log(response.message);
+      }
+    },
+    error: function(xhr) {
+      console.log("Error:", xhr.responseText);
     }
-  }
+  });
+
+
 
   console.log(data);
-  alert("Proceeding with " + method.toUpperCase());
 }
 </script>
 
