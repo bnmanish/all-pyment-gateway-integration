@@ -52,4 +52,16 @@ class HomeController extends Controller
             'message' => 'Unable to create PayPal order'
         ]);
     }
+
+    public function paymentSuccess(){
+        return view('success');
+    }
+    
+    public function paymentFail(){
+        return view('fail');
+    }
+
+    public function paymentCancel(){
+        return view('cancel');
+    }
 }
