@@ -188,9 +188,56 @@ function pay(method) {
     gateway: method
   };
 
+  if(data.gateway == 'payumoney'){
+     // REMOVE OLD FORM IF EXISTS
+    $("#payuForm").remove();
+
+    // CREATE FORM
+    let form = $('<form>', {
+
+        id: 'payuForm',
+
+        action: 'https://test.payu.in/_payment',
+
+        method: 'POST'
+
+    });
+
+    // PAYU HIDDEN INPUTS
+    form.append('<input type="hidden" name="key" value="{{env('PAYU_MERCHANT_KEY')}}">');
+
+    form.append('<input type="hidden" name="txnid" value="' + new Date().getTime() + '">');
+
+    form.append('<input type="hidden" name="amount" value="' + data.amount + '">');
+
+    form.append('<input type="hidden" name="productinfo" value="Test Product">');
+
+    form.append('<input type="hidden" name="firstname" value="' + data.name + '">');
+
+    form.append('<input type="hidden" name="email" value="' + data.email + '">');
+
+    form.append('<input type="hidden" name="phone" value="' + data.mobile + '">');
+
+    form.append('<input type="hidden" name="surl" value="http://127.0.0.1:8000/success">');
+
+    form.append('<input type="hidden" name="furl" value="http://127.0.0.1:8000/failure">');
+
+    form.append('<input type="hidden" name="hash" value="GENERATED_HASH_FROM_BACKEND">');
+
+    form.append('<input type="hidden" name="service_provider" value="payu_paisa">');
+
+    // APPEND FORM TO BODY
+    $('body').append(form);
+
+    // SUBMIT FORM
+    form.submit();
+    
+    return true;
+  }
+
 
    $.ajax({
-    url: "{{route('paypal.payment')}}",
+    url: "{{route('payment')}}",
     type: "POST",
     data: data,
     headers: {
@@ -213,6 +260,10 @@ function pay(method) {
 
   console.log(data);
 }
+
+
+
+
 </script>
 
 </body>
