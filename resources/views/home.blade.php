@@ -188,53 +188,45 @@ function pay(method) {
     gateway: method
   };
 
-  if(data.gateway == 'payumoney'){
-     // REMOVE OLD FORM IF EXISTS
-    $("#payuForm").remove();
-
-    // CREATE FORM
-    let form = $('<form>', {
-
-        id: 'payuForm',
-
-        action: 'https://test.payu.in/_payment',
-
-        method: 'POST'
-
-    });
-
-    // PAYU HIDDEN INPUTS
-    form.append('<input type="hidden" name="key" value="{{env('PAYU_MERCHANT_KEY')}}">');
-
-    form.append('<input type="hidden" name="txnid" value="' + new Date().getTime() + '">');
-
-    form.append('<input type="hidden" name="amount" value="' + data.amount + '">');
-
-    form.append('<input type="hidden" name="productinfo" value="Test Product">');
-
-    form.append('<input type="hidden" name="firstname" value="' + data.name + '">');
-
-    form.append('<input type="hidden" name="email" value="' + data.email + '">');
-
-    form.append('<input type="hidden" name="phone" value="' + data.mobile + '">');
-
-    form.append('<input type="hidden" name="surl" value="http://127.0.0.1:8000/success">');
-
-    form.append('<input type="hidden" name="furl" value="http://127.0.0.1:8000/failure">');
-
-    form.append('<input type="hidden" name="hash" value="GENERATED_HASH_FROM_BACKEND">');
-
-    form.append('<input type="hidden" name="service_provider" value="payu_paisa">');
-
-    // APPEND FORM TO BODY
-    $('body').append(form);
-
-    // SUBMIT FORM
-    form.submit();
-    
-    return true;
+  if(data.gateway == 'payumoney')
+  {
+      $.ajax({
+          url: "{{ route('generate.payuhash') }}",
+          type: "POST",
+          data: data,
+          headers: {
+              "X-CSRF-TOKEN": "{{ csrf_token() }}",
+          },
+          success: function(response)
+          {
+              console.log(response);
+              $("#payuForm").remove();
+              let form = $('<form>', {
+                  id: 'payuForm',
+                  action: '{{env('PAYU_URL')}}',
+                  method: 'POST'
+              });
+              form.append('<input type="hidden" name="key" value="' + response.key + '">');
+              form.append('<input type="hidden" name="txnid" value="' + response.txnid + '">');
+              form.append('<input type="hidden" name="amount" value="' + response.amount + '">');
+              form.append('<input type="hidden" name="productinfo" value="' + response.productinfo + '">');
+              form.append('<input type="hidden" name="firstname" value="' + response.firstname + '">');
+              form.append('<input type="hidden" name="email" value="' + response.email + '">');
+              form.append('<input type="hidden" name="phone" value="' + response.phone + '">');
+              form.append('<input type="hidden" name="surl" value="' + response.surl + '">');
+              form.append('<input type="hidden" name="furl" value="' + response.furl + '">');
+              form.append('<input type="hidden" name="hash" value="' + response.hash + '">');
+              form.append('<input type="hidden" name="service_provider" value="payu_paisa">');
+              $('body').append(form);
+              form.submit();
+          },
+          error: function(xhr)
+          {
+              console.log(xhr.responseText);
+          }
+      });
+      return;
   }
-
 
    $.ajax({
     url: "{{route('payment')}}",
