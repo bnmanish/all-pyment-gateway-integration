@@ -59,7 +59,42 @@ class HomeController extends Controller
         ]);
     }
 
-    public function paymentSuccess(){
+    public function generatePyuhash(Request $request){
+        $key = env('PAYU_MERCHANT_KEY');
+        $salt = env('PAYU_MERCHANT_SALT');
+        $txnid = time();
+        $amount = $request->amount;
+        $productInfo = "B N Manish";
+        $firstname = $request->name;
+        $email = $request->email;
+        // PAYU HASH STRING
+        $hashString =
+            $key . '|' .
+            $txnid . '|' .
+            $amount . '|' .
+            $productInfo . '|' .
+            $firstname . '|' .
+            $email . '|||||||||||' .
+            $salt;
+        // GENERATE HASH
+        $hash = strtolower(hash('sha512', $hashString));
+        return response()->json([
+            'status' => true,
+            'key' => $key,
+            'txnid' => $txnid,
+            'amount' => $amount,
+            'productinfo' => $productInfo,
+            'firstname' => $firstname,
+            'email' => $email,
+            'phone' => $request->mobile,
+            'hash' => $hash,
+            'surl' => route('payment.success'),
+            'furl' => route('payment.fail'),
+        ]);
+    }
+
+    public function paymentSuccess(Request $request){
+        return $request->all();
         return view('success');
     }
     
