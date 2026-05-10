@@ -376,7 +376,7 @@
             </a>
 
             <!-- RAZORPAY -->
-            <a href="{{ route('payumoney') }}"
+            <a href="{{ route('razorpay') }}"
                class="gateway-btn razorpay">
 
                 <div class="gateway-icon">

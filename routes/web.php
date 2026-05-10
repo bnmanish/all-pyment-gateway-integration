@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\PayUMoneyController;
+use App\Http\Controllers\RazorpayController;
+
 
 
 
@@ -18,7 +20,9 @@ Route::post('/paypal/payment', [PayPalController::class, 'payment'])->name('payp
 Route::get('/payumoney', [PayUMoneyController::class, 'index'])->name('payumoney');
 Route::post('/payumoney/payment', [PayUMoneyController::class, 'payment'])->name('payumoney.payment');
 
-
+// Razorpay
+Route::get('/razorpay', [RazorpayController::class, 'index'])->name('razorpay');
+Route::post('/razorpay/payment', [RazorpayController::class, 'payment'])->name('razorpay.payment');
 
 // success, fail, cancel
 Route::any('/success', [HomeController::class, 'paymentSuccess'])->name('payment.success');
