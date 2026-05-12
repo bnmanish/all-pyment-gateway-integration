@@ -397,7 +397,7 @@
             </a>
 
             <!-- CASHFREE -->
-            <a href="{{ route('payumoney') }}"
+            <a href="{{ route('cashfree') }}"
                class="gateway-btn cashfree">
 
                 <div class="gateway-icon">

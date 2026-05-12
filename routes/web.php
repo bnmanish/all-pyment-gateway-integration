@@ -5,8 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\PayUMoneyController;
 use App\Http\Controllers\RazorpayController;
-
-
+use App\Http\Controllers\CashfreeController;
 
 
 Route::get('/', [HomeController::class, 'home']);
@@ -24,10 +23,12 @@ Route::post('/payumoney/payment', [PayUMoneyController::class, 'payment'])->name
 Route::get('/razorpay', [RazorpayController::class, 'index'])->name('razorpay');
 Route::post('/razorpay/payment', [RazorpayController::class, 'payment'])->name('razorpay.payment');
 
+// Cashfree
+Route::get('/cashfree', [CashfreeController::class, 'index'])->name('cashfree');
+Route::post('/cashfree/payment', [CashfreeController::class, 'payment'])->name('cashfree.payment');
+Route::get('/cashfree/success', [CashfreeController::class, 'success'])->name('cashfree.success');
+
 // success, fail, cancel
 Route::any('/success', [HomeController::class, 'paymentSuccess'])->name('payment.success');
 Route::any('/fail', [HomeController::class, 'paymentFail'])->name('payment.fail');
 Route::any('/cancel', [HomeController::class, 'paymentCancel'])->name('payment.cancel');
-
-
-

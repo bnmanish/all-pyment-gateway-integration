@@ -60,6 +60,7 @@ class RazorpayController extends Controller
             "theme" => [
                 "color" => "#3399cc"
             ]
+            
         ];
 
         return view('razorpay-checkout', compact('data'));
