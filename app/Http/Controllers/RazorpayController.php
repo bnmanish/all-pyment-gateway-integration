@@ -58,7 +58,7 @@ class RazorpayController extends Controller
             ],
 
             "theme" => [
-                "color" => "#3399cc"
+                "color" => "#199fe2"
             ]
             
         ];
