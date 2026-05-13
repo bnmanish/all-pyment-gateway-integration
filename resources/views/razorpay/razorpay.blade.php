@@ -225,8 +225,67 @@
             }
 
         }
+        @media(max-width:768px){
+
+            body{
+                padding:20px;
+                overflow:auto;
+            }
+
+            .payment-card{
+                border-radius:22px;
+            }
+
+            .right-side{
+                padding:25px;
+            }
+
+            .title{
+                font-size:28px;
+            }
+
+            .form-control{
+                height:52px;
+            }
+
+            .pay-btn{
+                height:56px;
+                font-size:16px;
+            }
+
+            .payment-methods{
+                flex-wrap:wrap;
+            }
+
+            .payment-methods div{
+                flex:1 1 40%;
+            }
+        }
+
+        @media(max-width:480px){
+
+            .right-side{
+                padding:20px;
+            }
+
+            .title{
+                font-size:24px;
+            }
+
+            .subtitle{
+                font-size:14px;
+            }
+
+            .badge-secure{
+                width:100%;
+                justify-content:center;
+                text-align:center;
+            }
+        }
 
     </style>
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 </head>
 
@@ -315,7 +374,7 @@
                         Enter your payment details below.
                     </p>
 
-                    <form action="{{ route('razorpay.payment') }}"
+                    <form id="razorpay-checkout-form" action="{{ route('razorpay.payment') }}"
                           method="POST">
 
                         @csrf
@@ -406,7 +465,7 @@
                         </div>
 
                         <!-- BUTTON -->
-                        <button type="submit"
+                        <button id="razorpay-checkout-btn" type="button"
                                 class="btn pay-btn w-100">
 
                             <i class="bi bi-lightning-charge-fill me-2"></i>
@@ -434,6 +493,42 @@
     </div>
 
 </div>
+<script>
+$("#razorpay-checkout-btn").click(function () {
 
+    $.ajax({
+        url: $("#razorpay-checkout-form").attr("action"),
+        type: $("#razorpay-checkout-form").attr("method"),
+        data: $("#razorpay-checkout-form").serialize(),
+        success: function (response) {
+            var options = {
+                "key": '{{env('RAZORPAY_KEY')}}',
+                "amount": response.amount,
+                "currency": "INR",
+                "name": "Test Company",
+                "description": "Test Payment",
+                "order_id": response.razorpay_order_id,
+                "handler": function (response){
+                    window.location.href =
+                    "success?payment_id=" + response.razorpay_payment_id +
+                    "&order_id=" + response.razorpay_order_id +
+                    "&signature=" + response.razorpay_signature;
+                },
+
+                "prefill": {
+                    "name": response.name,
+                    "email": response.rmail
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp = new Razorpay(options);
+            rzp.open();
+        }
+    });
+
+});
+</script>
 </body>
 </html>
