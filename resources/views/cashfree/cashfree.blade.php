@@ -20,6 +20,8 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet">
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+
 
     <style>
 
@@ -226,6 +228,8 @@
         }
 
     </style>
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 </head>
 
@@ -242,7 +246,7 @@
 
                 <div class="left-side h-100">
 
-                    <img src="https://cashfree.com/images/cf-dark.svg"
+                    <img src="{{url('images/cashfree.png')}}"
                          alt="Cashfree">
 
                     <h1>
@@ -325,7 +329,7 @@
 
                     @endif
 
-                    <form action="{{ route('cashfree.payment') }}"
+                    <form id="cashfree-checkout-form" action="{{ route('cashfree.payment') }}"
                           method="POST">
 
                         @csrf
@@ -416,7 +420,7 @@
                         </div>
 
                         <!-- BUTTON -->
-                        <button type="submit"
+                        <button id="cashfree-checkout-btn" type="button"
                                 class="btn pay-btn w-100">
 
                             <i class="bi bi-lightning-charge-fill me-2"></i>
@@ -445,6 +449,29 @@
     </div>
 
 </div>
+<script>
+$("#cashfree-checkout-btn").click(function () {
 
+    $.ajax({
+        url: $("#cashfree-checkout-form").attr("action"),
+        type: $("#cashfree-checkout-form").attr("method"),
+        data: $("#cashfree-checkout-form").serialize(),
+        success: function (response) {
+            console.log(response);
+            const cashfree = Cashfree({
+                mode: "{{env('CASHFREE_MODE')}}"
+            });
+
+            cashfree.checkout({
+                paymentSessionId: response.payment_session_id
+            }).then((result) => {
+                console.log(result);
+            });
+
+        }
+    });
+
+});
+</script>
 </body>
 </html>

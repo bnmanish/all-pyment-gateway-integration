@@ -6,13 +6,11 @@ use Illuminate\Http\Request;
 
 class RazorpayController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         return view('razorpay/razorpay');
     }
 
-    public function payment(Request $request)
-    {
+    public function payment(Request $request){
         $keyId = env('RAZORPAY_KEY');
         $keySecret = env('RAZORPAY_SECRET');
         $name = $_POST['name'];
@@ -22,7 +20,6 @@ class RazorpayController extends Controller
         // CREATE ORDER USING CURL
         //--------------------------------------
         $orderAPIUrl = env('RAZORPAY_ORDER_API');
-
         $data = [
             "amount" => $amount,
             "currency" => "INR",
@@ -44,10 +41,6 @@ class RazorpayController extends Controller
         curl_close($ch);
         $order = json_decode($response, true);
         $orderId = $order['id'];
-
         return ['amount'=>$amount,'orderId'=>$orderId,'name'=>$name,'email'=>$email];
-
-        // return view('razorpay-checkout', compact('data'));
-        // return view('razorpay/checkout',['keyId'=>$keyId,'amount'=>$amount,'orderId'=>$orderId,'name'=>$name,'email'=>$email]);
     }
 }

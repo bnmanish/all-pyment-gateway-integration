@@ -10,7 +10,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "cashfree/cashfree-pg": "^5.0",
         "laravel/framework": "^13.0",
         "laravel/tinker": "^3.0",
         "srmklive/paypal": "^3.1"
