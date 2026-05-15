@@ -418,7 +418,7 @@
             </a>
 
             <!-- STRIPE -->
-            <a href="{{ route('payumoney') }}"
+            <a href="{{ route('stripe') }}"
                class="gateway-btn stripe">
 
                 <div class="gateway-icon">

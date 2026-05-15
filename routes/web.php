@@ -6,6 +6,7 @@ use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\PayUMoneyController;
 use App\Http\Controllers\RazorpayController;
 use App\Http\Controllers\CashfreeController;
+use App\Http\Controllers\StripeController;
 
 
 Route::get('/', [HomeController::class, 'home']);
@@ -27,6 +28,10 @@ Route::post('/razorpay/payment', [RazorpayController::class, 'payment'])->name('
 Route::get('/cashfree', [CashfreeController::class, 'index'])->name('cashfree');
 Route::post('/cashfree/payment', [CashfreeController::class, 'payment'])->name('cashfree.payment');
 Route::get('/cashfree/success', [CashfreeController::class, 'success'])->name('cashfree.success');
+
+// Stripe
+Route::get('/stripe', [StripeController::class, 'index'])->name('stripe');
+Route::post('/stripe/payment', [StripeController::class, 'payment'])->name('stripe.payment');
 
 // success, fail, cancel
 Route::any('/success', [HomeController::class, 'paymentSuccess'])->name('payment.success');
