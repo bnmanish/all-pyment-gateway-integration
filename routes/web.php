@@ -7,6 +7,12 @@ use App\Http\Controllers\PayUMoneyController;
 use App\Http\Controllers\RazorpayController;
 use App\Http\Controllers\CashfreeController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\MollieController;
+use App\Http\Controllers\PaytmController;
+use App\Http\Controllers\PhonePeController;
+
+
+
 
 
 Route::get('/', [HomeController::class, 'home']);
@@ -32,6 +38,19 @@ Route::get('/cashfree/success', [CashfreeController::class, 'success'])->name('c
 // Stripe
 Route::get('/stripe', [StripeController::class, 'index'])->name('stripe');
 Route::post('/stripe/payment', [StripeController::class, 'payment'])->name('stripe.payment');
+
+// MollieController
+Route::get('/mollie', [MollieController::class, 'index'])->name('mollie');
+Route::post('/mollie/payment', [MollieController::class, 'payment'])->name('mollie.payment');
+
+// Paytm
+Route::get('/paytm', [PaytmController::class, 'index'])->name('paytm');
+Route::post('/paytm/payment', [PaytmController::class, 'payment'])->name('paytm.payment');
+
+//PhonePe
+Route::get('/phonepe', [PhonePeController::class, 'index'])->name('phonepe');
+Route::post('/phonepe/payment', [PhonePeController::class, 'payment'])->name('phonepe.payment');
+
 
 // success, fail, cancel
 Route::any('/success', [HomeController::class, 'paymentSuccess'])->name('payment.success');

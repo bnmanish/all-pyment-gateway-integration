@@ -439,7 +439,7 @@
             </a>
 
             <!-- MOLLIE -->
-            <a href="{{ route('payumoney') }}"
+            <a href="{{ route('mollie') }}"
                class="gateway-btn mollie">
 
                 <div class="gateway-icon">
@@ -460,7 +460,7 @@
             </a>
 
             <!-- PAYTM -->
-            <a href="{{ route('payumoney') }}"
+            <a href="{{ route('paytm') }}"
                class="gateway-btn paytm">
 
                 <div class="gateway-icon">
@@ -481,7 +481,7 @@
             </a>
 
             <!-- PHONEPE -->
-            <a href="{{ route('payumoney') }}"
+            <a href="{{ route('phonepe') }}"
                class="gateway-btn phonepe">
 
                 <div class="gateway-icon">

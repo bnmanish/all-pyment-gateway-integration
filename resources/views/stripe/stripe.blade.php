@@ -244,8 +244,7 @@
 
                 <div class="left-side h-100">
 
-                    <img src="https://stripe.com/img/v3/home/twitter.png"
-                         alt="Stripe">
+                    <img style="width: 140px" src="{{url('images/stripe.gif')}}" alt="Stripe">
 
                     <h1>
                         Modern & Secure<br>

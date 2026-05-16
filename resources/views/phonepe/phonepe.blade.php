@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Cashfree Payment Gateway</title>
+    <title>PhonePe Checkout</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
@@ -20,8 +20,6 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet">
-    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
-
 
     <style>
 
@@ -29,7 +27,7 @@
             margin:0;
             min-height:100vh;
             background:
-                linear-gradient(135deg,#051937,#004d7a,#008793,#00bf72);
+                linear-gradient(135deg,#5f259f,#7b2cbf,#9d4edd);
             display:flex;
             align-items:center;
             justify-content:center;
@@ -41,24 +39,24 @@
         body::before{
             content:'';
             position:absolute;
-            width:400px;
-            height:400px;
+            width:420px;
+            height:420px;
             border-radius:50%;
-            background:#38bdf8;
-            filter:blur(140px);
+            background:#c77dff;
+            filter:blur(150px);
             top:-120px;
             left:-120px;
-            opacity:0.25;
+            opacity:0.24;
         }
 
         body::after{
             content:'';
             position:absolute;
-            width:350px;
-            height:350px;
+            width:380px;
+            height:380px;
             border-radius:50%;
-            background:#00c6ff;
-            filter:blur(140px);
+            background:#7b2cbf;
+            filter:blur(150px);
             bottom:-100px;
             right:-100px;
             opacity:0.22;
@@ -79,14 +77,16 @@
         }
 
         .left-side{
-            background:linear-gradient(135deg,#11998e,#38ef7d);
+            background:
+                linear-gradient(180deg,#5f259f,#7b2cbf);
             padding:60px;
             color:#fff;
         }
 
-        .left-side img{
-            width:210px;
-            margin-bottom:40px;
+        .logo{
+            font-size:52px;
+            font-weight:800;
+            margin-bottom:35px;
         }
 
         .left-side h1{
@@ -131,8 +131,8 @@
             display:inline-flex;
             align-items:center;
             gap:10px;
-            background:#eff6ff;
-            color:#2563eb;
+            background:#f5edff;
+            color:#7b2cbf;
             padding:12px 18px;
             border-radius:14px;
             font-weight:600;
@@ -164,8 +164,8 @@
         }
 
         .form-control:focus{
-            border-color:#2563eb;
-            box-shadow:0 0 0 0.2rem rgba(37,99,235,0.18);
+            border-color:#7b2cbf;
+            box-shadow:0 0 0 0.2rem rgba(123,44,191,0.18);
         }
 
         .input-box{
@@ -184,13 +184,13 @@
             border:none;
             border-radius:18px;
             background:
-                linear-gradient(135deg,#2563eb,#0f4c75);
+                linear-gradient(135deg,#5f259f,#7b2cbf);
             color:#fff;
             font-size:18px;
             font-weight:700;
             transition:0.3s;
             box-shadow:
-                0 15px 25px rgba(37,99,235,0.28);
+                0 15px 25px rgba(123,44,191,0.28);
         }
 
         .pay-btn:hover{
@@ -228,8 +228,6 @@
 
     </style>
     <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
 </head>
 
 <body>
@@ -245,17 +243,18 @@
 
                 <div class="left-side h-100">
 
-                    <img src="{{url('images/cashfree.png')}}"
-                         alt="Cashfree">
+                    <div class="logo">
+                        PhonePe
+                    </div>
 
                     <h1>
-                        Modern & Secure<br>
-                        Cashfree Payments
+                        Fast & Secure<br>
+                        PhonePe Payments
                     </h1>
 
                     <p>
-                        Accept payments via cards, UPI, wallets,
-                        net banking and more using Cashfree.
+                        Accept UPI and online payments securely
+                        using PhonePe payment gateway integration.
                     </p>
 
                     <div class="feature-list">
@@ -265,8 +264,8 @@
                             <i class="bi bi-lightning-charge-fill"></i>
 
                             <div>
-                                <h6 class="mb-1">Instant Payments</h6>
-                                <small>Fast online checkout</small>
+                                <h6 class="mb-1">Instant Checkout</h6>
+                                <small>Quick online transactions</small>
                             </div>
 
                         </div>
@@ -276,8 +275,8 @@
                             <i class="bi bi-shield-lock-fill"></i>
 
                             <div>
-                                <h6 class="mb-1">Bank-Level Security</h6>
-                                <small>Fully encrypted transactions</small>
+                                <h6 class="mb-1">Secure Payments</h6>
+                                <small>Protected transactions</small>
                             </div>
 
                         </div>
@@ -287,8 +286,8 @@
                             <i class="bi bi-phone-fill"></i>
 
                             <div>
-                                <h6 class="mb-1">UPI & Wallets</h6>
-                                <small>All payment methods supported</small>
+                                <h6 class="mb-1">UPI Payments</h6>
+                                <small>Fast mobile payments</small>
                             </div>
 
                         </div>
@@ -308,7 +307,7 @@
 
                         <i class="bi bi-shield-check"></i>
 
-                        Cashfree Secure Checkout
+                        PhonePe Secure Checkout
 
                     </div>
 
@@ -328,7 +327,7 @@
 
                     @endif
 
-                    <form id="cashfree-checkout-form" action="{{ route('cashfree.payment') }}"
+                    <form id="phonepe-checkout-form" action="{{ route('phonepe.payment') }}"
                           method="POST">
 
                         @csrf
@@ -400,7 +399,7 @@
                         <div class="mb-4">
 
                             <label class="form-label">
-                                Amount
+                                Amount (INR)
                             </label>
 
                             <div class="input-box">
@@ -419,12 +418,12 @@
                         </div>
 
                         <!-- BUTTON -->
-                        <button id="cashfree-checkout-btn" type="button"
+                        <button id="phonepe-checkout-btn" type="button"
                                 class="btn pay-btn w-100">
 
-                            <i class="bi bi-lightning-charge-fill me-2"></i>
+                            <i class="bi bi-wallet2 me-2"></i>
 
-                            Proceed to Cashfree
+                            Proceed to PhonePe
 
                         </button>
 
@@ -435,7 +434,7 @@
                         <div>UPI</div>
                         <div>VISA</div>
                         <div>MC</div>
-                        <div>NET</div>
+                        <div>WALLET</div>
 
                     </div>
 
@@ -449,24 +448,14 @@
 
 </div>
 <script>
-$("#cashfree-checkout-btn").click(function () {
+$("#phonepe-checkout-btn").click(function () {
 
     $.ajax({
-        url: $("#cashfree-checkout-form").attr("action"),
-        type: $("#cashfree-checkout-form").attr("method"),
-        data: $("#cashfree-checkout-form").serialize(),
+        url: $("#phonepe-checkout-form").attr("action"),
+        type: $("#phonepe-checkout-form").attr("method"),
+        data: $("#phonepe-checkout-form").serialize(),
         success: function (response) {
             console.log(response);
-            const cashfree = Cashfree({
-                mode: "{{env('CASHFREE_MODE')}}"
-            });
-
-            cashfree.checkout({
-                paymentSessionId: response.payment_session_id
-            }).then((result) => {
-                console.log(result);
-            });
-
         }
     });
 
