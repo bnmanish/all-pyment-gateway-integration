@@ -52,18 +52,20 @@ class MollieController extends Controller
         $error = curl_error($ch);
         curl_close($ch);
         if ($error) {
-            echo "cURL Error: " . $error;
-            exit;
+            $status = false;
+            $data = $error;
         }
 
         $result = json_decode($response, true);
         if (isset($result['id'])) {
             $checkoutUrl = $result['_links']['checkout']['href'];
-            header("Location: " . $checkoutUrl);
-            exit;
+            $status = true;
+            $data = $checkoutUrl;
         } else {
-            echo "<pre>";
-            print_r($result);
+            return $result;
+            $status = false;
+            $data = $result;
         }
+        return array('status'=>$status,'data'=>$data);
     }
 }

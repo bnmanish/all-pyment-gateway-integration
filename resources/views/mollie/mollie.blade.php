@@ -441,7 +441,9 @@ $("#mollie-checkout-btn").click(function () {
         type: $("#mollie-checkout-form").attr("method"),
         data: $("#mollie-checkout-form").serialize(),
         success: function (response) {
-            console.log(response);
+            if(response.status){
+                window.location.href = response.data;
+            }
         }
     });
 
